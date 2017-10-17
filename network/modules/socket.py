@@ -1,9 +1,24 @@
 from socket import *
 import socks
-import os, threading, urllib.parse
+import os, argparse, threading, urllib.parse
 
 
 create_connection = socks.create_connection
+def add_argument_group(parser: argparse.ArgumentParser, address_required: bool = True):
+    group = parser.add_argument_group("Socket Options/Arguments")
+    addr, port = (("address",), ("port",)) if address_required else (("-a", "--address"), ("-p", "--port"))
+    group.add_argument(*addr, type = str, default = None if address_required else gethostname(), help = "Target hostname or address.")
+    group.add_argument(*port, type = int, default = None if address_required else 0, help = "Target port.")
+    address_families = group.add_mutually_exclusive_group()
+    address_families.add_argument("-6", "--ipv6", action = "store_true", help = "Use IPv6 instead of IPv4. (AddressFamily: AF_INET6)")
+    socket_kinds = group.add_mutually_exclusive_group()
+    socket_kinds.add_argument("--udp", action = "store_true", help = "Use UDP instead of TCP (SocketKind: SOCK_DGRAM).")
+    socket_kinds.add_argument("--raw", action = "store_true", help = "Use Raw Sockets instead of TCP (SocketKind: SOCK_RAW).")
+    group.add_argument("-P", "--protocol", type = int, default = 0, help = "Socket protocol.")
+    group.add_argument("-t", "--timeout", type = int, default = None, help = "Float, giving in seconds the socket timeout. Setting this argument to 0 is the same as specifying the --blocking argument.")
+    group.add_argument("-b", "--blocking", action = "store_true", help = "Set the socket to blocking (if flag is set) or non-blocking (not set).")
+    #group.add_argument("-x", "--proxy", type = str, default = "", help = "Route the traffic of this socket through this proxy. It must be in url format. E.g: socks5://127.0.0.1:9150/ or http://192.168.0.100/.")
+    #group.add_argument("--rdns", action = "store_true", help = "Should DNS queries be performed on through the proxy (rather than locally)? This has no effect with SOCKS4 proxies.")
 
 class socksocket(socks.socksocket):
     def __init__(self, family: AddressFamily = AddressFamily.AF_INET, type: SocketKind = SocketKind.SOCK_STREAM, proto: int = 0, fileno: int = None,

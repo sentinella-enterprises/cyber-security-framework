@@ -12,7 +12,7 @@ class API(object):
         if api_id:
             self.api_id = api_id
             self.api_secret = api_secret
-        ipv4 = ipv4.CensysIPv4(self.api_id, self.api_secret)
-        websites = websites.CensysWebsites(self.api_id, self.api_secret)
-        certificates = certificates.CensysCertificates(self.api_id, self.api_secret)
-        export = export.CensysExport(self.api_id, self.api_secret)
+        self.ipv4 = ipv4.CensysIPv4(self.api_id, self.api_secret)
+        self.websites = websites.CensysWebsites(self.api_id, self.api_secret)
+        self.certificates = certificates.CensysCertificates(self.api_id, self.api_secret)
+        self.export = export.CensysExport(self.api_id, self.api_secret)
