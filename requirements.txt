@@ -4,4 +4,5 @@ colorama>=0.3.9
 pip>=9.0.1
 PyQt5>=5.9
 SocksiPy_branch>=1.01
+pyreadline>=2.1
 git+https://github.com/black-security/impacket.git
