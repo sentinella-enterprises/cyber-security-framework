@@ -4,7 +4,7 @@ import argparse, sys, os
 
 
 class HKBit(base.Program):
-    """Encrypt & Decrypt files using binary binary inversion cryptography based on hex-digits as "index keys" for the inversion process."""
+    """Symmetric index based bit inversion cryptography."""
     def __init__(self):
         super().__init__()
         self.parser.add_argument("input", type = argparse.FileType("rb"), help = "Input file.")
