@@ -11,6 +11,7 @@ class exceptions(object):
         pass
 
 class Program(object):
+    """No description available."""
     notes: dict = {}
     credits: dict = {}
     references: dict = {}
@@ -25,7 +26,7 @@ class Program(object):
     parser: argparse.ArgumentParser = argparse.ArgumentParser()
     def __init__(self):
         self.parser.prog = type(self).__name__
-        self.parser.description = self.__doc__.split("\n", 1)[-1].strip()
+        self.parser.description = (self.__doc__ or "No description available.").split("\n", 1)[-1].strip()
         self.parser.epilog = self.epilog
     
     def parse_args(self, *args):

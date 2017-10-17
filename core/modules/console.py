@@ -30,12 +30,12 @@ def fit(string, prefix: str = "    "):
     columns = os.get_terminal_size().columns
     output = ""
     for word in string.split(" "):
-        if (len(output.split("\n")[-1]) >= (columns - 2)) or (len(output.split("\n")[-1] + word + " ") >= (columns - 2)):
+        if (len(output.split("\n")[-1]) >= (columns - 1)) or (len(output.split("\n")[-1] + word + " ") >= (columns - 1)):
             output += "\n" + prefix
         
-        if len(word) > (columns - 2) - len(output.split("\n")[-1]):
+        if len(word) > (columns - 1) - len(output.split("\n")[-1]):
             while word:
-                index = (columns - 2) - len(output.split("\n")[-1])
+                index = (columns - 1) - len(output.split("\n")[-1])
                 output += word[:index] + "\n" + prefix
                 word = word[index:]
             output += " "
@@ -44,7 +44,7 @@ def fit(string, prefix: str = "    "):
     return output
 
 _print = print
-def print(*messages, color: str = "white", dark: bool = False, prefix: str = "", **kwargs):
+def print(*messages, color: str = "white", dark: bool = False, prefix: str = "", parse: bool = True, **kwargs):
     if "file" not in kwargs:
         kwargs["file"] = stdout
     #try:
@@ -53,8 +53,6 @@ def print(*messages, color: str = "white", dark: bool = False, prefix: str = "",
     #    columns = None
     string = ""
     for message in messages:
-        color = color
-        dark = False
         if isinstance(message, (tuple, list, set)):
             if isinstance(message[-1], bool):
                 dark = message.pop(-1)
@@ -63,7 +61,7 @@ def print(*messages, color: str = "white", dark: bool = False, prefix: str = "",
             message = " ".join(map(str, message))
         string += termcolor.colored(message, color, attrs=["dark"] if dark else [])
     #if columns:
-    _print(fit(string, prefix).ljust(columns - 1), **kwargs)
+    _print((fit(string, prefix) if parse else string).ljust(columns - 1), **kwargs)
     #else:
     #    _print(string, **kwargs)
 
