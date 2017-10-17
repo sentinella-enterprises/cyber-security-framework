@@ -9,9 +9,11 @@ class HKBit(base.Program):
         super().__init__()
         self.parser.add_argument("input", type = argparse.FileType("rb"), help = "Input file.")
         self.parser.add_argument("-o", "--output", type = argparse.FileType("wb"), default = sys.stdout.buffer, help = "Output file.")
-        self.parser.add_argument("-k", "--key", type = argparse.FileType("ab+"), default = open("./hkbit.key", "ab+"), help = "Key file.")
+        self.parser.add_argument("-k", "--key", type = argparse.FileType("ab+"), default = None, help = "Key file.")
     
     def run(self):
+        if not self.arguments.key:
+            self.arguments.key = open("./hkbit.key", "ab+")
         self.arguments.key.seek(0)
         self.arguments.key.size = os.fstat(self.arguments.key.fileno()).st_size
         if not self.arguments.key.size:
@@ -29,12 +31,3 @@ class HKBit(base.Program):
             self.arguments.output.flush()
             chunk = self.arguments.input.read(0xFFF)
             ran += 0xFFF
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser("hkbit")
-    
-    args = parser.parse_args()
-    hkb = HKBit(args.input, args.output, args.key)
-    hkb.crypt()
-    print()
-    print(f"[i] Key file used: {args.key.name}")
