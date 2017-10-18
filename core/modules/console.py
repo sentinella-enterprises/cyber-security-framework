@@ -71,7 +71,35 @@ def input(prompt, stdin = sys.stdin, size: int = -1, **kwargs):
     print(prompt, **kwargs)
     return stdin.read(size = size)
 
-def hexdump(data: bytes, prefix=""):
+def hexdump(data: bytes, prefix="", **pkwargs):
     for b in range(0, len(data), 16):
         line = [char for char in data[b: b + 16]]
-        print(prefix + "{:04x}: {:48} |{}|".format(b, " ".join(f"{char:02x}" for char in line), "".join((chr(char) if 32 <= char <= 126 else ".") for char in line).ljust(16)))
+        print(prefix + "{:04x}: {:48} |{}|".format(b, " ".join(f"{char:02x}" for char in line), "".join((chr(char) if 32 <= char <= 126 else ".") for char in line).ljust(16)), **pkwargs)
+
+def pprint(obj: object, depth: int = 0, excluded_keys: list = [], pretty_keys: bool = True, **pkwargs):
+    prefix = "" if depth == 0 else (" -  " if depth == 1 else ("    - " if depth == 2 else ("  " * depth) + "- "))
+    if isinstance(obj, dict):
+        for key, value in filter(lambda x: x not in excluded_keys, obj.copy().items()):
+            if pretty_keys:
+                key = key.replace("_", "-")
+                if key.islower():
+                    key = key.title()
+                else:
+                    key = key[0].upper() + key[1:]
+            if isinstance(value, (dict, list, set, tuple)):
+                print(f"{prefix}{key}:", **pkwargs)
+                pprint(value, depth + 1, excluded_keys, pretty_keys, **pkwargs)
+            elif isinstance(value, (bytes, bytearray)):
+                print(f"{prefix}{key}:", **pkwargs)
+                hexdump(value, prefix, **pkwargs)
+            else:
+                print(f"{prefix}{key}: {value}", **pkwargs)
+    elif isinstance(obj, (list, tuple, set)):
+        for value in obj:
+            pprint(value, depth, excluded_keys, pretty_keys, **pkwargs)
+            if obj.index(value) < len(obj) - 1:
+                print()
+    elif isinstance(obj, (bytes, bytearray)):
+        hexdump(value, prefix, **pkwargs)
+    else:
+        print(f"{prefix}{obj}", **pkwargs)

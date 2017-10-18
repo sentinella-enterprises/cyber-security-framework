@@ -1,5 +1,5 @@
 from core.modules import base, console
-from apis import censys as Censys
+from remote.web.apis.modules import censys as Censys
 from argparse import ArgumentParser
 from enum import Enum
 

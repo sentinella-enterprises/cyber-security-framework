@@ -14,7 +14,7 @@ class Launcher(object):
         subparsers.required = True
         for root, dirnames, filenames in os.walk(self.location):
             basedir = os.path.basename(os.path.dirname(root))
-            if not basedir.startswith("_") and basedir != "modules":
+            if not basedir.startswith("_") and basedir not in ["modules"]:
                 for name in filter(lambda name: name.endswith(".py"), filenames):
                     fullname = os.path.join(root, name)
                     try:
@@ -49,5 +49,6 @@ if __name__ == "__main__":
         console.print(f"[!] {type(e).__name__}: ({filename.replace(launcher.location, '.')} line #{line} in {function})", color = "red")
         console.print(f"    {repr(text)}", color = "red", dark = True, parse = False)
         console.print(f" -  {e}", color = "red", dark = True)
+        #raise e
     except KeyboardInterrupt:
         console.print(f"[!] Keyboard Interrupted!", color = "red")

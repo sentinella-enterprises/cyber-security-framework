@@ -1,8 +1,8 @@
 from core.modules.console import print
 from core.modules.base import Program
 from dns.resolver import Resolver
-from bs4 import BeautifulSoup
-import re, json, argparse, requests
+from remote.web.modules.session import Session
+import re, argparse
 
 
 class CrimeFlare(Program):
@@ -10,7 +10,7 @@ class CrimeFlare(Program):
     def __init__(self):
         super().__init__()
         self.resolver = Resolver()
-        self.session = requests.Session()
+        self.session = Session("http://www.crimeflare.com/cgi-bin/")
         actions = self.parser.add_mutually_exclusive_group(required = True)
         actions.add_argument("-s", "-cfs", "--search", metavar="DOMAIN", type=str, help="CloudFlare-Protected-Domain Search ...")
         actions.add_argument("-l", "-cfl", "--list", metavar="CFL-ID", type=str, help="List CloudFlare domains using the specified Direct-Connect IP Address ...")
@@ -18,8 +18,7 @@ class CrimeFlare(Program):
     
     def cfsearch(self, domain: str):
         nameservers = [ns.to_text() for ns in self.resolver.query(domain, "NS")]
-        resp = self.session.post("http://www.crimeflare.com/cgi-bin/cfsearch.cgi", data={"cfS": domain})
-        page = BeautifulSoup(resp.text, "html.parser")
+        page = self.session.post("cfsearch.cgi", data={"cfS": domain}).parsed()
         cfl_ids = [a.get("href") for a in page.findAll("a", attrs={"href": re.compile(r"^http://www.crimeflare.com/cgi-bin/cflist/.*$")})]
         
         print("[i] CloudFlare Search Results:")
@@ -38,8 +37,7 @@ class CrimeFlare(Program):
             print(" -  No direct-connect IP addresses have been found for this domain ...", color = "red", dark = True)
     
     def cflist(self, cfl_id: str):
-        resp = self.session.get("http://www.crimeflare.com/cgi-bin/cflist/" + cfl_id, headers={"Referer": "http://www.crimeflare.com/cgi-bin/cfsearch.cgi"})
-        page = BeautifulSoup(resp.text, "html.parser")
+        page = self.session.get("cflist/" + cfl_id, headers={"Referer": "http://www.crimeflare.com/cgi-bin/cfsearch.cgi"}).parsed()
         if page.title.text.lower() == "cloudflare search results":
             domains = list(page.stripped_strings)[3:-4]
             print("[i] Some CloudFlare-User domains with a direct-connect IP address of {cfl_id.split('-')[1]}:")
