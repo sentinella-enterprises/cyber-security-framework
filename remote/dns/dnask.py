@@ -6,6 +6,7 @@ from core.modules.console import print
 
 class DNAsk(Program):
     """Utility to build and execute DNS queries ..."""
+    requirements = {"dnspython3"}
     def __init__(self):
         super().__init__()
         self.parser.add_argument("query", type=str, help="Query string.")
