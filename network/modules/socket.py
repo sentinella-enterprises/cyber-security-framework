@@ -4,11 +4,11 @@ import os, argparse, threading, urllib.parse
 
 
 create_connection = socks.create_connection
-def add_argument_group(parser: argparse.ArgumentParser, address_required: bool = True):
+def add_argument_group(parser: argparse.ArgumentParser, address_required: bool = False):
     group = parser.add_argument_group("Socket Options/Arguments")
-    addr, port = (("address",), ("port",)) if address_required else (("-a", "--address"), ("-p", "--port"))
-    group.add_argument(*addr, type = str, default = None if address_required else gethostname(), help = "Target hostname or address.")
-    group.add_argument(*port, type = int, default = None if address_required else 0, help = "Target port.")
+    if address_required:
+        group.add_argument("address", type = str, help = "Target hostname or address.")
+        group.add_argument("port", type = int, help = "Target port.")
     address_families = group.add_mutually_exclusive_group()
     address_families.add_argument("-6", "--ipv6", action = "store_true", help = "Use IPv6 instead of IPv4. (AddressFamily: AF_INET6)")
     socket_kinds = group.add_mutually_exclusive_group()

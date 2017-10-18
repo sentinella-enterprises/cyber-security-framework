@@ -7,7 +7,7 @@ class Client(base.Program):
     """Network Client."""
     def __init__(self):
         super().__init__()
-        socket.add_argument_group(self.parser)
+        socket.add_argument_group(self.parser, address_required = True)
         self.parser.add_argument("-c", "--crlf", action = "store_true", help = "Use CRLF for EOL sequences.")
     
     def run(self):
@@ -15,7 +15,6 @@ class Client(base.Program):
         kwargs = {"family": socket.AF_INET6 if self.arguments.ipv6 else socket.AF_INET,
                   "type": socket.SOCK_DGRAM if self.arguments.udp else socket.SOCK_STREAM,
                   "proto": self.arguments.protocol, "timeout": self.arguments.timeout, "blocking": self.arguments.blocking}
-        
         data = b"\x00"
         client = socket.socket(**kwargs)
         client.connect((self.arguments.address, self.arguments.port))

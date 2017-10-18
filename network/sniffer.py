@@ -8,13 +8,13 @@ from impacket import ImpactDecoder
 
 class Sniffer(socket.sniffer):
     decoder = ImpactDecoder.IPDecoder()
-    def __init__(self, address: str = ""):
+    def __init__(self, address: str = "", **kwargs):
         try:
             socket.inet_pton(socket.AF_INET6, address)
             ipv6 = True
         except OSError:
             ipv6 = False
-        super().__init__(address or socket.gethostname(), family = socket.AF_INET6 if ipv6 else socket.AF_INET)
+        super().__init__(address or socket.gethostname(), family = socket.AF_INET6 if ipv6 else socket.AF_INET, **kwargs)
     
     def on_start(self):
         print(datetime.now().strftime("[i] Started sniffing %A, %B %d at %H:%M:%S!"))
@@ -52,7 +52,9 @@ class Program(base.Program):
     def __init__(self):
         super().__init__()
         self.parser.add_argument("-a", "--address", type = str, default = socket.gethostname(), help = "Target address.")
+        socket.add_argument_group(self.parser)
     
     def run(self):
-        sniffer = Sniffer(self.arguments.address)
+        kwargs = {"proto": self.arguments.protocol, "timeout": self.arguments.timeout, "blocking": self.arguments.blocking}
+        sniffer = Sniffer(self.arguments.address, **kwargs)
         sniffer.sniff()
