@@ -1,7 +1,7 @@
 import importlib.util, zipimport
 import readline, colorama, termcolor
 import threading
-import sys, os
+import argparse, sys, os
 colorama.init(autoreset=True)
 lock = threading.Lock()
 
@@ -55,13 +55,13 @@ def print(*messages, color: str = "white", dark: bool = False, prefix: str = "",
     for message in messages:
         if isinstance(message, (tuple, list, set)):
             if isinstance(message[-1], bool):
-                dark = message.pop(-1)
+                *message, dark = message
             if message[-1] in termcolor.COLORS.keys():
-                color = message.pop(-1)
+                *message, color = message
             message = " ".join(map(str, message))
         string += termcolor.colored(message, color, attrs=["dark"] if dark else [])
     #if columns:
-    _print((fit(string, prefix) if parse else string).ljust(columns - 1), **kwargs)
+    _print((fit(string, prefix) if parse else string), **kwargs)
     #else:
     #    _print(string, **kwargs)
 
@@ -103,3 +103,34 @@ def pprint(obj: object, depth: int = 0, excluded_keys: list = [], pretty_keys: b
         hexdump(value, prefix, **pkwargs)
     else:
         print(f"{prefix}{obj}", **pkwargs)
+
+"""
+class Command(argparse.ArgumentParser):
+    console = None
+    def __init__(self, name: str, usage: str = None, description: str = None, epilog: str = None, formatter_class = argparse.HelpFormatter, add_help: bool = True):
+        assert self.console, "No parent console specified! (parent = None)"
+        super().__init__(name, usage, description, epilog, formatter_class, self.console.prefix_chars, None,
+                         self.console.argument_default, self.console.conflict_handler, add_help, self.console.allow_abbrev)
+    
+    def __eq__(self, obj):
+        return self.prog == obj or self == obj
+
+class Console(object):
+    prompt: str = "-{name}> "
+    prefix_chars: str = "-"
+    argument_default: str = None
+    conflict_handler: str = "error"
+    allow_abbrev: bool = True
+    parser: argparse.ArgumentParser = argparse.ArgumentParser()
+    commands: parser.add_subparsers(required = True)
+    def __init__(self):
+        self.parser.prog = self.__name__
+        Console.Command.console = self
+        self.prompt = self.prompt.format(name = self.__name__)
+        self.commands.add_parser(Command("help", description = "Displays help information on commands."))
+    
+    def execute(self, command: str, *args):
+        assert command in self.commands.choices, ValueError(f"No command named {repr(command)}.")
+        arguments = self.parser.parse_args([command, *args])
+        getattr(self, command)(arguments)
+"""
