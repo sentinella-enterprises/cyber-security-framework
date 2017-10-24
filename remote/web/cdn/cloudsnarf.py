@@ -39,10 +39,12 @@ class CloudSnarf(base.Program):
                                                     certificate.get("common_name", []),
                                                     certificate.get("names", []),
                                                     certificate.get("subject_dn"))
-            console.print(f"[+] {fingerprint}: {', '.join(common_name or names or [])}")
-            if sdn:
-                console.print(f" -  {sdn}")
-            for host in censys.ipv4.search(f"{fingerprint}", fields = ["443.https.tls.certificate.parsed.extensions.subject_alt_name.dns_names", "443.https.tls.certificate.parsed.names", "ip"]):
+            results = censys.ipv4.search(f"{fingerprint}", fields = ["443.https.tls.certificate.parsed.extensions.subject_alt_name.dns_names", "443.https.tls.certificate.parsed.names", "ip"])
+            if results:
+                console.print(f"[+] {fingerprint}: {', '.join(common_name or names or [])}")
+                if sdn:
+                    console.print(f" -  {sdn}")
+            for host in results:
                 hosts.add(host["ip"])
                 console.print(f" -  {host['ip']} [{', '.join(host.get('443.https.tls.certificate.parsed.names', host.get('443.https.tls.certificate.parsed.extensions.subject_alt_name.dns_names', [])))}]", dark = True)
             fingerprints[fingerprint] = hosts

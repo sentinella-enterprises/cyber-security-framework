@@ -23,8 +23,14 @@ class CSF(object):
                     fullname = os.path.join(root, name)
                     try:
                         module = console.load(fullname)
-                        commands = filter(lambda attribute: callable(attribute) and issubclass(attribute, base.Program) and attribute != base.Program,
-                                          map(lambda name: getattr(module, name), filter(lambda x: not x.startswith("_"), dir(module))))
+                        commands = set()
+                        for attribute in map(lambda name: getattr(module, name), filter(lambda x: not x.startswith("_"), dir(module))):
+                            try:
+                                if callable(attribute) and issubclass(attribute, base.Program) and attribute != base.Program:
+                                    commands.add(attribute)
+                            except TypeError as e:
+                                if str(e) != "issubclass() arg 1 must be a class":
+                                    raise e
                         assert commands, "Invalid executable Program!"
                         for command in commands:
                             t = tree
@@ -36,8 +42,6 @@ class CSF(object):
                             t[os.path.splitext(os.path.basename(fullname))[0]] = command.__doc__.split("\n", 1)[0]
                             total[0] += 1
                             break
-                    except TypeError:
-                        pass
                     except Exception as e:
                         if debug:
                             raise e
@@ -65,8 +69,14 @@ class CSF(object):
         if not fullname.endswith(".py"):
             fullname += ".py"
         module = console.load(fullname)
-        commands = filter(lambda attribute: callable(attribute) and issubclass(attribute, base.Program) and attribute != base.Program,
-                          map(lambda name: getattr(module, name), filter(lambda x: not x.startswith("_"), dir(module))))
+        commands = set()
+        for attribute in map(lambda name: getattr(module, name), filter(lambda x: not x.startswith("_"), dir(module))):
+            try:
+                if callable(attribute) and issubclass(attribute, base.Program) and attribute != base.Program:
+                    commands.add(attribute)
+            except TypeError as e:
+                if str(e) != "issubclass() arg 1 must be a class":
+                    raise e
         assert commands, "Invalid executable Program!"
         for command in commands:
             try:
