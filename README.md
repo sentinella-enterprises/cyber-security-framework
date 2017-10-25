@@ -1,6 +1,6 @@
 # **CSF - Cyber Security Framework**
 - #### By the **Black**Security Team
-> The CyberSecurity Framework (CSF for short) is a local Python3 scripting package which aims directly on Cyber Security auditing, where you can execute and create new programs for **any purpuse that go under your own responsibility** to fit your needs. (You can still use/extend it to fit on any unrelated needs of your own).
+The CyberSecurity Framework (CSF for short) is a local Python3 scripting package which aims directly on Cyber Security auditing, where you can execute and create new programs for **any purpuse that go under your own responsibility** to fit your needs. (You can still use/extend it to fit on any unrelated needs of your own).
 
 ### **Extending**
 > To create an executable program, which can be ran through the `csf.py --execute` command, all you need to do is subclass the `core.modules.base.Program` class and implement a `run` method on it. Once this class is initialized you can access a `parser` attribute which holds an `argparse.ArgumentParser` object, used to define & parse command line arguments into your program ...
