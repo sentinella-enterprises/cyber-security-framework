@@ -24,4 +24,6 @@
 >         self.parser.add_argument("-q", "--qux", type = str, default = "Quux", help = "Qux str.")
 >     
 >     def run(self):
->         print(f"foo = {self.arguments.foo}, bar = {self.arguments.bar}, baz = {self.arguments.baz}, qux = {self.arguments.qux}")> ```
+>         print(f"foo = {self.arguments.foo}, bar = {self.arguments.bar}, baz = {self.arguments.baz}, qux = {self.arguments.qux}")
+> ```
+> **TIP: You can also base on other program's code to roll your own having something usable to base on.**
