@@ -19,7 +19,7 @@ The CyberSecurity Framework (CSF for short) is a local Python3 scripting package
 >  -e PROGRAM, --exec PROGRAM, --execute PROGRAM
 >                        Execute the specified program.
 > ```
-> **Listing Programs**:
+> ### **Listing Programs**:
 > - **List all working programs**:
 >   
 >   Command:
@@ -103,7 +103,7 @@ The CyberSecurity Framework (CSF for short) is a local Python3 scripting package
 >    -  name 'abc' is not defined
 >   ```
 > 
-> **Executing Programs**:
+> ### **Executing Programs**:
 > Command:
 > ```csf.py --execute PROGRAM [ARGUMENTS]```
 > 
