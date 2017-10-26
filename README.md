@@ -8,9 +8,7 @@ The CyberSecurity Framework (CSF for short) is a local Python3 scripting package
 
 ### **Usage**
 > ```
-> csf.py --help
-> 
-> 
+> $ csf.py --help
 > usage: csf.py [-h] [-l [DIR]] [-d] [-e PROGRAM]
 > 
 > optional arguments:
@@ -29,8 +27,7 @@ The CyberSecurity Framework (CSF for short) is a local Python3 scripting package
 >   
 >   Example:
 >   ```
->   csf.py --list
->   
+>   $ csf.py --list
 >   [i] There are 16 programs available on 12 folders!
 >   |--crypto: (1/0)
 >   |  |--hkbit             Symmetric index based bit inversion cryptography.
@@ -71,8 +68,7 @@ The CyberSecurity Framework (CSF for short) is a local Python3 scripting package
 >   
 >   Example:
 >   ```
->   csf.py --list remote
->   
+>   $ csf.py --list remote
 >   [i] There are 9 programs available on 8 folders!
 >   |--remote: (0/5)
 >   |  |--dns: (3/0)
@@ -100,10 +96,8 @@ The CyberSecurity Framework (CSF for short) is a local Python3 scripting package
 >   
 >   Example:
 >   ```
->   csf.py --list --debug
->   
->   
->   >   [!] .\remote\test.py:
+>   $ csf.py --list --debug
+>   [!] .\remote\test.py:
 >    -  NameError: (.\remote\test.py line #18 in <module>)
 >       'abc'
 >    -  name 'abc' is not defined
@@ -115,8 +109,7 @@ The CyberSecurity Framework (CSF for short) is a local Python3 scripting package
 > 
 > Example:
 > ```
-> csf.py --execute remote/dns/dnask google.com --metaquery --rdtype ANY
-> 
+> $ csf.py --execute remote/dns/dnask google.com --metaquery --rdtype ANY
 > id 56855
 > opcode QUERY
 > rcode NOERROR
