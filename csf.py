@@ -31,20 +31,25 @@ class CSF(object):
                             except TypeError as e:
                                 if str(e) != "issubclass() arg 1 must be a class":
                                     raise e
-                        assert commands, "Invalid executable Program!"
-                        for command in commands:
-                            t = tree
-                            for field in root.replace(self.location, "", 1)[1:].replace("\\", "/").split("/"):
-                                if field not in t:
-                                    t[field] = {}
-                                    total[1] += 1
-                                t = t[field]
-                            t[os.path.splitext(os.path.basename(fullname))[0]] = command.__doc__.split("\n", 1)[0]
-                            total[0] += 1
-                            break
+                        if commands:
+                            for command in commands:
+                                t = tree
+                                for field in root.replace(self.location, "", 1)[1:].replace("\\", "/").split("/"):
+                                    if field not in t:
+                                        t[field] = {}
+                                        total[1] += 1
+                                    t = t[field]
+                                t[os.path.splitext(os.path.basename(fullname))[0]] = (command.__doc__ or "No description available.").split("\n", 1)[0]
+                                total[0] += 1
+                                break
                     except Exception as e:
                         if debug:
-                            raise e
+                            filename, line, function, text = traceback.extract_tb(e.__traceback__)[-1]
+                            console.print(f"[!] {fullname.replace(self.location, '.')}:", color = "red")
+                            console.print(f" -  {type(e).__name__}: ({filename.replace(csf.location, '.')} line #{line} in {function})", color = "red")
+                            console.print(f"    {repr(text)}", color = "red", dark = True, parse = False)
+                            console.print(f" -  {e}", color = "red", dark = True)
+                            exit(1)
         def pprint(obj, depth: int = 0):
             prefix = "|  " * depth
             for key, value in obj.items():
