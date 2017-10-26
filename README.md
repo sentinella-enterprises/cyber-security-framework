@@ -28,7 +28,8 @@ The CyberSecurity Framework (CSF for short) is a local Python3 scripting package
 >   ```csf.py --list```
 >   
 >   Example:
->   ```csf.py --list
+>   ```
+>   csf.py --list
 >   
 >   [i] There are 16 programs available on 12 folders!
 >   |--crypto: (1/0)
@@ -69,7 +70,8 @@ The CyberSecurity Framework (CSF for short) is a local Python3 scripting package
 >   ```csf.py --list FOLDER```
 >   
 >   Example:
->   ```csf.py --list remote
+>   ```
+>   csf.py --list remote
 >   
 >   [i] There are 9 programs available on 8 folders!
 >   |--remote: (0/5)
@@ -97,7 +99,8 @@ The CyberSecurity Framework (CSF for short) is a local Python3 scripting package
 >   ```csf.py --list --debug```
 >   
 >   Example:
->   ```csf.py --list --debug
+>   ```
+>   csf.py --list --debug
 >   
 >   
 >   >   [!] .\remote\test.py:
