@@ -2,8 +2,6 @@ from core.modules import console, base
 import os, sys, argparse, traceback
 
 
-__all__ = ["Launcher"]
-
 class CSF(object):
     location = os.path.abspath(os.path.dirname(__file__))
     def __init__(self):

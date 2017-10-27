@@ -1,4 +1,4 @@
-import stem.interpreter
+import stem.interpreter, sys
 from core.modules.base import Program
 from core.modules.console import print
 
@@ -9,4 +9,5 @@ class TorConsole(Program):
         super().__init__()
     
     def run(self):
+        del sys.argv[:2]
         stem.interpreter.main()
