@@ -3,7 +3,7 @@
 [![last-commit](https://img.shields.io/github/last-commit/black-security/cyber-security-framework.svg)]()
 [![contributors](https://img.shields.io/github/contributors/black-security/cyber-security-framework.svg)]()
 [![repo-size](https://img.shields.io/github/repo-size/black-security/cyber-security-framework.svg)]()
-- #### By the **Black**Security Team
+- #### By the **Black**Security Team (c).
    [![Twitter Follow](https://img.shields.io/twitter/follow/blackviruscript.svg?style=social&label=Follow)](https://twitter.com/BlackViruScript)
 
 The CyberSecurity Framework (CSF for short) is a local Python3 scripting package which aims directly on Cyber Security auditing, where you can execute and create new programs for **any purpuse that go under your own responsibility** to fit your needs. (You can still use/extend it to fit on any unrelated needs of your own).
@@ -170,3 +170,7 @@ class MyProgram(Program):
         print(f"foo = {self.arguments.foo}, bar = {self.arguments.bar}, baz = {self.arguments.baz}, qux = {self.arguments.qux}")
 ```
 **TIP: You can also base on other program's code to roll your own, like so, you have something usable to base on.**
+
+
+
+Copyright (c) 2017 BlackSecurity Team.
