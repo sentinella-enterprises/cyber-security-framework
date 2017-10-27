@@ -119,7 +119,8 @@ optional arguments:
 
 - ### **Executing Programs**:
 ```
-$ csf.py --execute PROGRAM [ARGUMENTS]```
+$ csf.py --execute PROGRAM [ARGUMENTS]
+```
 Example:
 ```
 $ csf.py --execute remote/dns/dnask google.com --metaquery --rdtype ANY
