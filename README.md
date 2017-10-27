@@ -7,9 +7,17 @@ The CyberSecurity Framework (CSF for short) is a local Python3 scripting package
 - This readme is still incomplete, there is not much info on it yet, but soon it is going to be updated.
 
 ## Instalation
+**You are going to need [Python](https://www.python.org/) >= v3.6 installed in order to execute CSF.**
 
+Once you have got Python installed, you can simply execute the following commands on your operating system's terminal to download & prepare **Black**Security's Cyber Security Framework for use.
+```
+git clone https://github.com/black-security/cyber-security-framework.git
+cd cyber-security-framework
+pip install -r requirements.txt
+```
 
-## Usage
+## Using CSF
+To display a help message with details on CSF's arguments you can simply trigger the `-h/--help` flag as shown below.
 ```
 $ csf.py --help
 usage: csf.py [-h] [-l [DIR]] [-d] [-e PROGRAM]
@@ -22,10 +30,10 @@ optional arguments:
  -e PROGRAM, --exec PROGRAM, --execute PROGRAM
                        Execute the specified program.
 ```
-### **Listing Programs**:
+- ### Listing Programs:
  - **List all working programs**:
    ```
-   csf.py --list
+   $ csf.py --list
    ```
    Example:
    ```
@@ -64,7 +72,9 @@ optional arguments:
    |  |  |  |--crimeflare  Uncovering bad guys hiding behind CloudFlare ...
    ```
  - **List all working programs on a specific folder**:
-   ```csf.py --list FOLDER```
+   ```
+   $ csf.py --list FOLDER
+   ```
    Example:
    ```
    $ csf.py --list remote
@@ -90,7 +100,7 @@ optional arguments:
    ```
  - **Debug program listing**:
    ```
-   csf.py --list --debug
+   $ csf.py --list --debug
    ```
    Example:
    ```
@@ -100,9 +110,10 @@ optional arguments:
        'abc'
     -  name 'abc' is not defined
    ```
- 
-### **Executing Programs**:
-```csf.py --execute PROGRAM [ARGUMENTS]```
+
+- ### **Executing Programs**:
+```
+$ csf.py --execute PROGRAM [ARGUMENTS]```
 Example:
 ```
 $ csf.py --execute remote/dns/dnask google.com --metaquery --rdtype ANY
@@ -148,7 +159,7 @@ class MyProgram(Program):
         self.parser.add_argument("bar", type = int, help = "Bar int.")
         self.parser.add_argument("-b", "--baz", type = str, help = "Baz str.")
         self.parser.add_argument("-q", "--qux", type = str, default = "Quux", help = "Qux str.")
-    
+
     def run(self):
         print(f"foo = {self.arguments.foo}, bar = {self.arguments.bar}, baz = {self.arguments.baz}, qux = {self.arguments.qux}")
 ```
