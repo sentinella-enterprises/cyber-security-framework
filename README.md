@@ -9,7 +9,7 @@
 The CyberSecurity Framework (CSF for short) is a local Python3 scripting package which aims directly on Cyber Security auditing, where you can execute and create new programs for **any purpuse that go under your own responsibility** to fit your needs. (You can still use/extend it to fit on any unrelated needs of your own).
 
 ## **NOTES**:
-- This is a beta project, core features & modules can still be updated and require major changes over all programs. Use at your own risk
+- This is a beta project, core features & modules can still be updated and require major changes over all programs. Use it at your own risk.
 
 ## Instalation
 **You are going to need [Python](https://www.python.org/) >= v3.6 installed in order to execute CSF.**
